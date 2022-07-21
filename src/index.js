@@ -11,12 +11,14 @@ const userAuthV1Routes = require("./routes/v1/user/authentication");
 const userShipmentV1Routes = require("./routes/v1/user/shipments");
 const userShippingPackageV1Routes = require("./routes/v1/user/shipping-packages");
 const userTrackingV1Routes = require("./routes/v1/user/tracking");
+const userMessageV1Routes = require("./routes/v1/user/messages");
 
 
 const adminAuthV1Routes = require("./routes/v1/admin/authentication");
 const adminShipmentV1Routes = require("./routes/v1/admin/shipments");
 const adminShippingPackageV1Routes = require("./routes/v1/admin/shipping-packages");
 const adminTrackingV1Routes = require("./routes/v1/admin/tracking");
+const adminMessageV1Routes = require("./routes/v1/admin/messages");
 
 
 mongoose.connect(keys.mongoDBURI).then(value => {
@@ -38,12 +40,14 @@ app.use('/api/v1/user/auth', userAuthV1Routes);
 app.use('/api/v1/user/shipments', userShipmentV1Routes);
 app.use('/api/v1/user/shipping-packages', userShippingPackageV1Routes);
 app.use('/api/v1/user/tracking', userTrackingV1Routes);
+app.use('/api/v1/user/messages', userMessageV1Routes);
 
 
 app.use('/api/v1/admin/auth', adminAuthV1Routes);
 app.use('/api/v1/admin/shipments', adminShipmentV1Routes);
 app.use('/api/v1/admin/shipping-packages', adminShippingPackageV1Routes);
 app.use('/api/v1/admin/tracking', adminTrackingV1Routes);
+app.use('/api/v1/admin/messages', adminMessageV1Routes);
 
 
 const port = process.env.PORT || keys.port;

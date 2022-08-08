@@ -56,12 +56,11 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const {usernameOrEmailOrPhone, password} = req.body;
+        const {usernameOrEmail, password} = req.body;
         const existingUser = await User.findOne({
             $or: [
-                {username: usernameOrEmailOrPhone},
-                {email: usernameOrEmailOrPhone},
-                {phone: usernameOrEmailOrPhone}
+                {username: usernameOrEmail},
+                {email: usernameOrEmail}
             ]
         });
         if (!existingUser)
@@ -282,12 +281,11 @@ exports.deleteProfile = async (req, res) => {
 
 exports.resendOTP = async (req, res) => {
     try {
-        const {usernameOrEmailOrPhone} = req.body;
+        const {usernameOrEmail} = req.body;
         const existingUser = await User.findOne({
             $or: [
-                {username: usernameOrEmailOrPhone},
-                {email: usernameOrEmailOrPhone},
-                {phone: usernameOrEmailOrPhone}
+                {username: usernameOrEmail},
+                {email: usernameOrEmail}
             ]
         });
 

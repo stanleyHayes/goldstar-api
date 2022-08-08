@@ -6,10 +6,14 @@ const shippingPackage = new mongoose.Schema({
         required: true
     },
     extras: {
-        insurance: {
+        insured: {
             type: Boolean,
             default: false
-        }
+        },
+        fragile: {
+            type: Boolean,
+            default: false
+        },
     },
     value: {
         amount: {
@@ -27,19 +31,18 @@ const shippingPackage = new mongoose.Schema({
         type: Number,
         default: 1
     },
-    shipment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Shipping',
-        required: true
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    fragile: {
-        type: Boolean,
-        default: false
+    weight: {
+        amount: {
+            type: Number,
+            min: 0,
+            required: true
+        },
+        unit: {
+            type: String,
+            required: true,
+            enum: ['lb', 'kg', 'g', 'mg'],
+            default: 'g'
+        }
     },
     dimensions: {
         width: {
@@ -80,24 +83,7 @@ const shippingPackage = new mongoose.Schema({
                 enum: ['m', 'cm', 'mm', 'km', 'in'],
                 default: 'cm'
             }
-        },
-        weight: {
-            amount: {
-                type: Number,
-                min: 0,
-                required: true
-            },
-            unit: {
-                type: String,
-                required: true,
-                enum: ['lb', 'kg', 'g', 'mg'],
-                default: 'g'
-            }
         }
-    },
-    image: {
-        type: String,
-        required: true
     }
 }, {
     timestamps: {createdAt: true, updatedAt: true},
@@ -105,6 +91,4 @@ const shippingPackage = new mongoose.Schema({
     toJSON: {virtuals: true}
 });
 
-const ShippingPackage = mongoose.model('ShippingPackage', shippingPackage);
-
-module.exports = ShippingPackage;
+module.exports = shippingPackage;

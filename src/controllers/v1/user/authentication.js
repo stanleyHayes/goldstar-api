@@ -27,8 +27,8 @@ exports.register = async (req, res) => {
                 specialChars: false
             });
 
-        const link = `https://ruderalis.vercel.app/auth/verify/${token}`;
-        const message = `Access this link ${link} in the browser and enter the OTP code. \nYour OTP is ${otp}.OTP expires after 48 hours`;
+        const link = `https://goldstar.vercel.app/auth/verify/${token}`;
+        const message = `Access this link ${link} in the browser and enter the OTP code. \nYour OTP is ${otp} .OTP expires after 48 hours`;
         // await sendSMS(phone, message);
         const subject = `Verify Account`;
         await sendEmail(email, subject, message);
@@ -93,7 +93,7 @@ exports.login = async (req, res) => {
         const link = `https://localhost:3000/auth/otp/${token}/verify`;
         const message = `Your OTP is ${otp}. OTP expires in 1 hour. Access the link through ${link}`;
         // await sendSMS(existingUser.phone, message);
-        const subject = `Ruderalis OTP`;
+        const subject = `Gold Star OTP`;
         await sendEmail(existingUser.email, subject, message);
         res.status(200).json({message: 'Check your email to verify otp.', token});
     } catch (e) {
@@ -197,10 +197,10 @@ exports.changePassword = async (req, res) => {
             expiryDate: moment().add(1, 'hour')
         };
 
-        const link = `https://ruderalis.vercel.app/auth/reset-password?token=${token}`;
+        const link = `https://goldstar.vercel.app/auth/reset-password?token=${token}`;
         const message = `You have successfully changed your password. If you did not perform this operation, use the link ${link} to reset your password`;
         // await sendSMS(req.user.phone, message);
-        const subject = `Ruderalis Reset Password Confirmation`;
+        const subject = `Gold Star Reset Password Confirmation`;
         await sendEmail(req.user.email, subject, message);
         res.status(200).json({message: 'Password changed successfully'});
     } catch (e) {
@@ -252,7 +252,7 @@ exports.reactivateProfile = async (req, res) => {
         user.status = 'active';
         const message = `Welcome back prodigal son. Now order some shit and get higher.`;
         await user.save();
-        const subject = `Ruderalis OTP`;
+        const subject = `Gold Star OTP`;
         await sendEmail(req.user.email, subject, message);
         // await sendSMS(user.phone, message);
         res.status(200).json({message: 'Profile reactivated successfully'});
@@ -315,7 +315,7 @@ exports.resendOTP = async (req, res) => {
         await existingUser.save();
         const message = `Your OTP is ${otp}. OTP expires in 1 hour`;
         // await sendSMS(phone, message);
-        const subject = `Ruderalis OTP`;
+        const subject = `Gold Star OTP`;
         await sendEmail(existingUser.email, subject, message);
 
         res.status(200).json({message: 'OTP sent successfully', token});

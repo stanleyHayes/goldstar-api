@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
+
+const ShippingPackage = require("./shipping-package");
 
 const shippingSchema = new mongoose.Schema({
     tracking: {
@@ -33,6 +36,42 @@ const shippingSchema = new mongoose.Schema({
             required: true,
             trim: true
         },
+        postalCode: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        addressLine2: {
+            type: String,
+            trim: true
+        }
+    },
+    destination: {
+        country: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        stateOrRegionOrProvince: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        city: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        addressLine1: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        postalCode: {
+            type: String,
+            required: true,
+            trim: true
+        },
         addressLine2: {
             type: String,
             trim: true
@@ -60,7 +99,7 @@ const shippingSchema = new mongoose.Schema({
             trim: true,
             lowercase: true,
             validate(value) {
-                if (!validator.isMobilePhone(value)) {
+                if (!validator.isEmail(value)) {
                     throw new Error(`Invalid email ${value}`);
                 }
             }
@@ -68,13 +107,29 @@ const shippingSchema = new mongoose.Schema({
     },
     mode: {
         type: String,
-        enum: ['express', 'standard'],
-        default: 'standard'
+        enum: ['air', 'sea'],
+        required: true
     },
-    stage: {
-        type: String,
-        enum: ['shipment created','packages received', 'bill uploaded', 'bill approved', 'departing origin', 'arriving destination', 'shipping calculated', 'shipping paid', 'out of delivery'],
-        default: 'shipment created'
+    stages: {
+        type: [{
+            order: {
+                type: Number,
+                default: 1
+            },
+            name: {
+                type: String,
+                required: true,
+                default: 'Shipment Created'
+            },
+            date: {
+                type: Date,
+                default: Date.now()
+            },
+            location: {
+                type: String,
+                default: 'Gold Star Warehouse, UK'
+            }
+        }],
     },
     status: {
         type: String,
@@ -92,11 +147,22 @@ const shippingSchema = new mongoose.Schema({
             enum: ['USD', 'EUR'],
             default: 'EUR'
         }
+    },
+    packages: {
+        type: [ShippingPackage],
+        required: true
     }
 }, {
     timestamps: {createdAt: true},
     toJSON: {virtuals: true},
     toObject: {virtuals: true}
+});
+
+shippingSchema.virtual('shippingPackage', {
+    localField: '_id',
+    foreignField: 'shipment',
+    justOne: false,
+    ref: 'ShippingPackage'
 });
 
 const Shipment = mongoose.model('Shipment', shippingSchema);

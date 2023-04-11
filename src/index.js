@@ -19,6 +19,7 @@ const adminShipmentV1Routes = require("./routes/v1/admin/shipments");
 const adminShippingPackageV1Routes = require("./routes/v1/admin/shipping-packages");
 const adminTrackingV1Routes = require("./routes/v1/admin/tracking");
 const adminMessageV1Routes = require("./routes/v1/admin/messages");
+const adminShipmentStageV1Routes = require("./routes/v1/admin/shipment-stage");
 
 
 mongoose.connect(keys.mongoDBURI).then(value => {
@@ -48,6 +49,7 @@ app.use('/api/v1/admin/shipments', adminShipmentV1Routes);
 app.use('/api/v1/admin/shipping-packages', adminShippingPackageV1Routes);
 app.use('/api/v1/admin/tracking', adminTrackingV1Routes);
 app.use('/api/v1/admin/messages', adminMessageV1Routes);
+app.use('/api/v1/admin/shipment-stages', adminShipmentStageV1Routes);
 
 
 const port = process.env.PORT || keys.port;

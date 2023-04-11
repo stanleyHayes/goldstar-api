@@ -40,7 +40,7 @@ const shippingPackage = new mongoose.Schema({
         unit: {
             type: String,
             required: true,
-            enum: ['lb', 'kg', 'g', 'mg'],
+            enum: ['lb', 'kg', 'g', 'mg', 'lbs'],
             default: 'g'
         }
     },
